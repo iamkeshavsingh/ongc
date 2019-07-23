@@ -34,23 +34,23 @@
         <div class="container" style="margin-top: 5%;">
             <div class="row">
                 <div class="col-md-6 text-center">
-                    <h2>Welcome <span id="showname"> Name </span></h2>
+                    <h2>Welcome : <span id="showname" class="lead"></span></h2>
                 </div>
 
                 <div class="col-md-6  text-center">
-                    <h2>Application Status: <span class="lead" id="show">abc</span></h2>
+                    <h2>Application Status: <span class="lead" id="show"></span></h2>
                 </div>
             </div>
 
-            <div class="col-md-12 button" id="download">
-                <a href="img/sample.pdf">
+            <div class="col-md-12 button" id="fill">
+                <a href="form.html">
                     <span></span>
                     <span></span>
                     <span></span>
                     <span></span>
                     Appyly For Internship
                 </a> </div>
-            <div class="col-md-12 button2" id="fill">
+            <div class="col-md-12 button2" id="download">
                 <a href="img/sample.pdf">
                     <span></span>
                     <span></span>
@@ -64,7 +64,6 @@
 
     <script>
         var content = ['Not Applied', 'Applied', 'Approved', 'Rejected'];
-        console.log(content);
         $.ajax({
             type: 'post',
             url: 'http://localhost:3000/user/',
@@ -74,23 +73,52 @@
             },
             success: function (data) {
                 console.log(data);
+                if (data.errorMsg == "Login First") {
+                    window.location.href = "login.html";
+                }
+                var num = data[0].status;
+                $('#showname').html(data[0].name);
+                $('#show').html(content[num]);
+                if (num == 0) {
+                    $('#download').fadeOut();
+                } else if (num == 1) {
+                    $('#fill').fadeOut();
+                    $('#download').fadeOut();
+                } else if (num == 2) {
+                    $('#fill').fadeOut();
+                } else if (num == 3) {
+                    $('#fill').fadeOut();
+                    $('#download').fadeOut();
+                }
                 //if false then redirect
             },
             error: function (data) {
-                console.log('hi');
-
+                console.log(data);
             }
         });
 
         $('#show').html(content[0]);
-        // $('#fill').fadeOut();
-        // $('#download').fadeOut();       
 
-        // $('#btnlogout').click(function () {
-        //     $.ajax({
-        //         url: "http://localhost:3000/auth/logout"
-        //     });
-        // });
+        $('#btnlogout').click(function (event) {
+            event.preventDefault();
+            $.ajax({
+                type: 'post',
+                url: "http://localhost:3000/auth/logout",
+                data: {
+                    authsecretEmail: 'secret@gmail.com',
+                    authsecretPassword: 'secret1234xxxx',
+                },
+                success: function (data) {
+                    console.log(data.success);
+                    if (data.success) {
+                        window.location.href = 'login.html';
+                    }
+                },
+                error: function (data) {
+                    console.log(data);
+                }
+            });
+        });
     </script>
 
 </body>

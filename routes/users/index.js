@@ -75,10 +75,22 @@ router.post('/data',(req,res) => {
                             res.end();
                         }
                         else{
-                            res.send({
-                                success : true
+                            
+                            const val = 1;
+                            query = `update members set status = ${val} where id = ${ref_id}`;
+                            conn.query(query,(err) => {
+                                if(err){
+                                    res.send({
+                                        success : false,
+                                        errorMsg : err.message
+                                    });
+                                    res.end();
+                                }
+                                else{
+                                    res.redirect('http://localhost:3000/dbuser.html');
+                                    res.end();
+                                }
                             });
-                            res.end();
                         }
                     });
                 }

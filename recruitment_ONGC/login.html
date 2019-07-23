@@ -43,7 +43,7 @@
 
             <!-- Remind Passowrd -->
             <div id="formFooter">
-                <a class="underlineHover" href="#">Forgot Password?</a>
+                <a class="underlineHover" href="signup.html">Create a new account !</a>
             </div>
 
         </div>
@@ -62,10 +62,16 @@
                     authsecretPassword: 'secret1234xxxx',
                 },
                 success: function (data) {
+                    console.log(data.isAdmin);
                     if (data.message === undefined) {
-                        console.log(data);
-                        //redirect
-                        //window.location.href = "dbuser.html";
+                        console.log('login');
+                        if (data.isAdmin == 1) {
+                            window.location.href = "dbadmin.html";
+                        }
+                        else{
+                            window.location.href = "dbuser.html";
+                        }
+
                     } else {
                         console.log(data.message);
 

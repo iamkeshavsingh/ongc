@@ -18,7 +18,7 @@ app.use(express.static('recruitment_ONGC'));
 //File uploading code 
 const storage = multer.diskStorage({
     destination : (req,file,cb) => {
-        cb(null,'./marksheets/');
+        cb(null,'./recruitment_ONGC/marksheets/');
     },
     filename  : (req,file,cb) => {
         const idx = file.originalname.lastIndexOf('.')+1;
